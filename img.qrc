@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/new/prefix1">
+        <file>icon accreditation.png</file>
+        <file>icon emolyee.png</file>
+        <file>icon entreprise.png</file>
+        <file>icon menu.png</file>
+        <file>icon rapport.png</file>
+        <file>icon reclamation.png</file>
+        <file>icon reglement.png</file>
+        <file>icon utilisateur.png</file>
+        <file>logo.png</file>
+    </qresource>
+</RCC>
