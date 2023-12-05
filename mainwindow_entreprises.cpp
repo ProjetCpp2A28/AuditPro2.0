@@ -399,54 +399,91 @@ void MainWindow_Entreprises::on_send_mail_2_clicked()
                    }
 }
 
-/*void MainWindow_Entreprises::on_Button_Star_Rating_clicked()
+void MainWindow_Entreprises::populateTableWidget(QTableWidget *tableWidget)
 {
-    int n=E.countRows();
-    QTableWidget* tableWidget = new QTableWidget(5, n);
+    static const struct {
+            const char *title;
+            const char *genre;
+            const char *artist;
+            const char *newColumn;
+            int rating;
+             // Add a new column
+        } staticData[] = {
+            { "Azurex", "accredee", "valide", "valide", 3 },
+            { "Medianet", "accredee", "valide", "valide", 3 },
+            { "Sartex", "non accredee", "non valide", "valide", 2 },
+            { "Conformatex", "non accredee", "non valide", "non valide", 0 },
+            { "Rubanerie", "accredee", "valide", "valide", 3 },
+            { "Telecom", "non accredee", "non valide", "valide", 1 },
+            { 0, 0, 0, 0, 0 }
+        };
+
+        int numColumns = 4 + 1;  // 4 existing columns + 1 new column
+
+        for (int row = 0; staticData[row].title != 0; ++row) {
+            QTableWidgetItem *item0 = new QTableWidgetItem(staticData[row].title);
+            QTableWidgetItem *item1 = new QTableWidgetItem(staticData[row].genre);
+            QTableWidgetItem *item2 = new QTableWidgetItem(staticData[row].artist);
+            QTableWidgetItem *item3 = new QTableWidgetItem;
+            item3->setData(0, QVariant::fromValue(StarRating(staticData[row].rating)));
+
+            QTableWidgetItem *newColumnItem = new QTableWidgetItem(staticData[row].newColumn);
+
+            tableWidget->setItem(row, 0, item0);
+            tableWidget->setItem(row, 1, item1);
+            tableWidget->setItem(row, 2, item2);
+            tableWidget->setItem(row, 4, item3);
+            tableWidget->setItem(row, 3, newColumnItem);  // Set the new column item
+        }
+
+    /*QSqlQueryModel *model = E.getJoinedData(); // Assuming getJoinedData() returns a QSqlQueryModel
+
+        int rowCount = model->rowCount();
+        int colCount = model->columnCount();
+
+        tableWidget->clear(); // Clear any existing content
+
+        tableWidget->setRowCount(rowCount);
+        tableWidget->setColumnCount(colCount);
+
+        // Set header labels
+        for (int col = 0; col < colCount; ++col) {
+            tableWidget->setHorizontalHeaderItem(col, new QTableWidgetItem(model->headerData(col, Qt::Horizontal).toString()));
+        }
+
+        // Populate the table with data
+        for (int row = 0; row < rowCount; ++row) {
+            for (int col = 0; col < colCount; ++col) {
+                QTableWidgetItem *item = new QTableWidgetItem(model->data(model->index(row, col)).toString());
+                tableWidget->setItem(row, col, item);
+            }
+        }*/
+}
+void MainWindow_Entreprises::on_Button_Star_Rating_clicked()
+{
+    // Create a QTableWidget
+        QTableWidget* tableWidget = new QTableWidget(6, 5);
         tableWidget->setItemDelegate(new StarDelegate);
-        tableWidget->setEditTriggers(QAbstractItemView::DoubleClicked
-                                      | QAbstractItemView::SelectedClicked);
+        tableWidget->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked);
         tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
 
+        // Set header labels
         QStringList headerLabels;
-        headerLabels << "Nom entreprise" << "Etat Accreditation" << "Resultat Rapport d'audit" << "Validation Reglement" << "Rating" ;
+        headerLabels << "Nom entreprise" << "Accreditation" << "Rapports d'audits" << "Reglement" << "Rating";
         tableWidget->setHorizontalHeaderLabels(headerLabels);
 
+        // Call the function to populate the table
         populateTableWidget(tableWidget);
 
+        // Adjust column widths and display the table
         tableWidget->resizeColumnsToContents();
-        tableWidget->resize(500, 300);
+        tableWidget->resize(600, 400);
         tableWidget->show();
-}*/
+}
 
-/*oui je peux utiliser cet exemple comme guide, maintenant est ce que vous pouver m aider pour l'exctraction de donnees voici ce que je veux faire:
-tout d'abord le nombre de colonnes affichees dependra du nombre d'entreprises trouvees dans la data base le nom de la table est ENTREPRISES , il aura 3 criteres a evaluer : résultat, validation, accreditation. La reponse pour chaque criteres sera trouve dans la data base comme suis:
-table RAPPORTS_AUDITS attribut RESULTAT donnees "valide" ou "non valide"
-table REGLEMENT attribut VALIDATION donnees "valide" ou "non valide"
-table ACCREDITATION attribut ETAT donnees "accrede" ou "non accrede"
-sachant que les id de toutes les tables que j ai appele ici doivent avoir le meme id que "ID_ENTREPRISE" (ID_ACCREDITATION= ID_RAPPORT =  ID_REGLEMENT)
-si tout est valide l'entreprise aura 3 etoiles sinon 2 sinon 1 (c'est logique)
-implemnter la focntion  qui me permettra de faire ceci avant d'appuyer sur le bouton et avoir l affichage des etoiles
 
-*/
 
-/*void MainWindow_Entreprises::on_B_CheckID_2_clicked()
-{
-    int id_entreprise = ui->id_Entreprise_3->text().toInt();
-    qDebug() << "Requête SQL exécutée : " << query.lastQuery();
-    bool exists = E.checkid(id_entreprise);
-    if (exists)
-        {
-            QMessageBox::information(nullptr, QObject::tr("ID Existence Check"),
-                                     QObject::tr("L'ID existe."), QMessageBox::Ok);
-        }
-        else
-        {
-            QMessageBox::warning(nullptr, QObject::tr("ID Existence Check"),
-                                 QObject::tr("L'ID n'existe pas."), QMessageBox::Cancel);
 
-        }
-}*/
 
 void MainWindow_Entreprises::on_B_CheckID_2_clicked()
 {
